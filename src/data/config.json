@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "title": "Emir Kılıç | AI, CTI & Cybersecurity",
+    "description": "Computer Science student developing projects in AI, Cyber Security, and Threat Intelligence.",
+    "themeColor": "#bc13fe"
+  },
+  "sections": {
+    "hero": {
+      "title": "AI & Cyber Intelligence",
+      "subtitle": "AI, Cyber Threat Intelligence & Security",
+      "description": "A Computer Science student specializing in AI, cybersecurity, and AI-based threat analysis, sharing what I learn along the way."
+    },
+    "about": {
+      "title": "About Me",
+      "content": "As a Computer Science student, my focus is on creating innovative solutions at the intersection of Artificial Intelligence and Cybersecurity. I am currently working on automating Cyber Threat Intelligence (CTI) processes and developing AI-powered security analysis tools."
+    },
+    "contact": {
+      "title": "Contact",
+      "links": [
+        { "name": "GitHub", "url": "https://github.com/Byfalcony", "icon": "github" },
+        { "name": "LinkedIn", "url": "https://www.linkedin.com/in/mustafa-emir-k%C4%B1l%C4%B1%C3%A7-503664300/", "icon": "linkedin" },
+        { "name": "Email", "url": "mailto:emirkilic@outlook.com", "icon": "envelope" }
+      ]
+    }
+  }
+}
