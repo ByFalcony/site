@@ -8,16 +8,17 @@ export function initTerminalEffect(canvasId) {
   
   const ctx = canvas.getContext('2d');
   
-  // Set canvas size to match parent
+  // Set canvas size to match viewport
   function resize() {
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height = canvas.parentElement.offsetHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   }
   
   resize();
   window.addEventListener('resize', resize);
 
   const commands = [
+    // CyberSecurity & CTI
     'root@emir:~# nmap -sV 192.168.1.1',
     '[+] Port 443 open: SSL/TLS',
     'systemctl status ai-analyzer',
@@ -29,8 +30,6 @@ export function initTerminalEffect(canvasId) {
     '# CVE-2024-38077 PoC active',
     'curl -X POST https://api.cti.local',
     'docker ps | grep icsti',
-    'cat /proc/cpuinfo | grep "model name"',
-    'ls -la /home/emir/projects/ai',
     'metasploit-framework loading...',
     '[!] Intrusion detection alert: High',
     'exploit/multi/handler selected',
@@ -39,47 +38,87 @@ export function initTerminalEffect(canvasId) {
     'hydra -l admin -P passwords.txt -t 4',
     'hashcat -m 1000 hashes.txt wordlist.txt',
     '[CRITICAL] Buffer overflow detected at 0x00401000',
-    'apt-get update && apt-get upgrade -y',
     'tcpdump -i eth0 -w traffic.pcap',
-    'wireshark loading dissectors...',
     'gobuster dir -u https://target.com -w common.txt',
     '[SUCCESS] Payload executed successfully',
     'nc -lvnp 4444',
     'sqlmap -u "http://site.com/id=1" --dbs',
     '# Encrypting assets for CTI report...',
-    '[LOG] Thread ID 1284 terminated normally'
+    '[LOG] Thread ID 1284 terminated normally',
+    'whoami /priv',
+    'net user /domain',
+    'getsystem',
+    'hashdump',
+    'load kiwi',
+    'creds_all',
+    '[*] Session 1 opened (192.168.1.5:4444)',
+    'aircrack-ng -w wordlist.txt capture.cap',
+    'john --wordlist=rockyou.txt hashes.txt',
+    'msfvenom -p windows/x64/shell_reverse_tcp',
+    'exploit/multi/samba/usermap_script',
+    
+    // AI & Data Science
+    'import torch; torch.cuda.is_available() -> True',
+    'python3 train.py --epochs 100 --batch-size 32',
+    'model.fit(X_train, y_train, validation_split=0.2)',
+    'loading transformer weights (BERT-base)...',
+    'inference time: 38ms (RTX 4090)',
+    'vector_db.search("threat intelligence vector")',
+    'LLM response generation in progress...',
+    'embedding generation for 10^6 documents...',
+    'data_cleaning.sh --dry-run completed',
+    'spark-submit --master local[*] analytics.py',
+    'tensorboard --logdir=runs',
+    'scikit-learn: accuracy_score = 0.982',
+    'pandas.read_csv("nvd_data_2024.csv")',
+    
+    // Dev & Ops
+    'npm run build --production',
+    'git push origin main [master 1a2b3c4]',
+    'docker-compose up -d --build',
+    'kubectl get pods -n security',
+    'terraform apply -auto-approve',
+    'aws s3 sync ./data s3://cti-vault',
+    'systemctl restart nginx.service',
+    'tail -f /var/log/nginx/access.log',
+    'htop',
+    'neofetch',
+    'matrix-cli --connect-to-server',
+    'apt-get update && apt-get upgrade -y',
+    'ls -la /home/emir/projects/ai'
   ];
 
-  const fontSize = 14;
-  const columns = Math.floor(canvas.width / 180); // Increased frequency (smaller spacing)
+  const fontSizeBase = 14;
+  const columns = Math.floor(canvas.width / 80); // Significantly increased frequency
   const drops = [];
 
-  const colors = ['#00ff00', '#ff0000']; // Green and Red
+  const colors = ['#00ff00', '#ff0000', '#bc13fe', '#888888']; // Green, Red, Purple, Gray
 
   // Initialize drops - each drop is an object with position and current text
   for (let i = 0; i < columns; i++) {
     drops[i] = {
       x: i * (canvas.width / columns),
-      y: Math.random() * -500,
+      y: Math.random() * -1000, // Longer initial spread
       text: commands[Math.floor(Math.random() * commands.length)],
-      speed: 1 + Math.random() * 2,
-      color: colors[Math.floor(Math.random() * colors.length)]
+      speed: 0.5 + Math.random() * 2.5, // More speed variety
+      color: colors[Math.floor(Math.random() * colors.length)],
+      fontSize: fontSizeBase + (Math.random() * 4 - 2) // Slight font size variety
     };
   }
 
   function draw() {
-    // Semi-transparent black to create trailing effect - slightly more opaque for better contrast
-    ctx.fillStyle = 'rgba(10, 10, 10, 0.2)';
+    // Semi-transparent black to create trailing effect
+    ctx.fillStyle = 'rgba(10, 10, 10, 0.25)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = `bold ${fontSize}px monospace`; // Added bold for better readability
-    
     for (let i = 0; i < drops.length; i++) {
       const drop = drops[i];
       
-      // Dynamic color (Green or Red) with glow
+      ctx.font = `bold ${drop.fontSize}px monospace`;
+      
+      // Dynamic color with glow
       ctx.fillStyle = drop.color;
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = drop.color === '#bc13fe' ? 15 : 8; // More glow for accent color
       ctx.shadowColor = drop.color;
       
       ctx.fillText(drop.text, drop.x, drop.y);
@@ -87,15 +126,16 @@ export function initTerminalEffect(canvasId) {
       // Reset shadow for performance
       ctx.shadowBlur = 0;
 
-      // Update position - slightly slower for readability
-      drop.y += drop.speed * 0.8;
+      // Update position
+      drop.y += drop.speed * 0.7;
 
       // Reset if off bottom
-      if (drop.y > canvas.height) {
-        drop.y = -20;
+      if (drop.y > canvas.height + 50) {
+        drop.y = - drop.fontSize - 20;
         drop.text = commands[Math.floor(Math.random() * commands.length)];
-        drop.color = colors[Math.floor(Math.random() * colors.length)]; // Randomize color on reset
-        drop.speed = 1 + Math.random() * 2;
+        drop.color = colors[Math.floor(Math.random() * colors.length)];
+        drop.speed = 0.5 + Math.random() * 2.5;
+        drop.fontSize = fontSizeBase + (Math.random() * 4 - 2);
       }
     }
     

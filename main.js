@@ -119,10 +119,18 @@ function setupNav() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       if (this.getAttribute('href').startsWith('#post/')) return; // Let the hashchange handle posts
+      
+      // If we are currently in a post detail, we want the hash to actually change 
+      // so that handleRouting can clear the overlay and show main sections.
+      if (document.getElementById('post-detail-overlay')) return;
+
       e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
-      });
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
     });
   });
 }
