@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import configData from '../data/config.json';
+import blogData from '../data/blog.json';
+
+const hero = configData.sections.hero;
+const about = configData.sections.about;
+const contact = configData.sections.contact;
+
+function getIconSvg(iconName) {
+  switch(iconName.toLowerCase()) {
+    case 'github':
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`;
+    case 'linkedin':
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`;
+    case 'email':
+    case 'envelope':
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`;
+    default:
+      return `<span style="font-size: 1.2rem; font-weight: bold;">${iconName[0]}</span>`;
+  }
+}
+---
+
+<Layout title={configData.meta.title} description={configData.meta.description}>
+  <!-- Home / Hero Section -->
+  <section id="home" class="section-padding container">
+      <div id="hero-content">
+          <h1 class="text-gradient" style="font-size: clamp(2rem, 8vw, 4.5rem); margin-bottom: 1rem;">{hero.title}</h1>
+          <h3 style="color: var(--accent); margin-bottom: 1.5rem; letter-spacing: 2px;">{hero.subtitle}</h3>
+          <p style="color: var(--text-secondary); max-width: 600px; font-size: 1.2rem; margin-bottom: 2rem;">{hero.description}</p>
+          <div class="hero-btns">
+            <a href="/#blog" class="btn btn-primary">Learning Log</a>
+            <a href="/#about" class="btn btn-secondary">More About Me</a>
+          </div>
+      </div>
+  </section>
+
+  <!-- Blog / Learning Log Section -->
+  <section id="blog" class="section-padding container">
+      <h2 class="section-title">Learning Log</h2>
+      <div id="blog-grid" class="grid">
+          {blogData.map((entry) => (
+            <article class="card">
+              <div style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">{entry.date}</div>
+              <h3 style="margin-bottom: 1rem;">{entry.title}</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">{entry.excerpt}</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+                {entry.tags.map((tag) => (
+                  <span style="font-size: 0.7rem; background: var(--accent-muted); color: var(--accent); border: 1px solid var(--accent-muted); padding: 2px 8px; border-radius: 4px;">{tag}</span>
+                ))}
+              </div>
+              <a href={`/post/${entry.id}`} class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.9rem;">Read More</a>
+            </article>
+          ))}
+      </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section-padding container">
+      <div id="about-content">
+          <h2 style="margin-bottom: 2rem;">{about.title}</h2>
+          <div class="card" style="max-width: 800px; font-size: 1.1rem; line-height: 1.8;">
+            <p>{about.content}</p>
+          </div>
+      </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section-padding container">
+      <h2 class="section-title">Contact</h2>
+      <div id="contact-links" class="grid">
+          {contact.links.map((link) => (
+            <a href={link.url} target="_blank" class="card" style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 40px; height: 40px; background: var(--accent-muted); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent);" set:html={getIconSvg(link.icon || link.name)}>
+              </div>
+              <div>
+                <h4 style="margin: 0;">{link.name}</h4>
+                <span style="font-size: 0.8rem; color: var(--text-secondary);">View Profile →</span>
+              </div>
+            </a>
+          ))}
+      </div>
+  </section>
+</Layout>

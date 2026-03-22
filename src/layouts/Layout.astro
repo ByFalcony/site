@@ -1,0 +1,115 @@
+---
+import '../styles/main.css';
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+    <canvas id="terminal-canvas"></canvas>
+    
+    <header>
+        <nav>
+            <div class="container nav-container">
+                <a href="/#home" class="logo">
+                    <span class="logo-text">EMIR KILIC</span>
+                </a>
+                <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="/#home" class="nav-link">Home</a></li>
+                    <li><a href="/#blog" class="nav-link">Learning Log</a></li>
+                    <li><a href="/#about" class="nav-link">About</a></li>
+                    <li><a href="/#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <slot />
+    </main>
+
+    <footer class="container" style="padding: 2rem 0; font-size: 0.8rem; color: var(--text-muted); text-align: center; border-top: 1px solid var(--glass-border);">
+        <p>&copy; 2026 ByFalcon. AI-Friendly Portfolio System.</p>
+    </footer>
+
+    <!-- Init Mobile Menu -->
+    <script>
+      function initMobileMenu() {
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileBtn && navLinks) {
+          mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+          });
+
+          document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+              mobileBtn.classList.remove('active');
+              navLinks.classList.remove('active');
+            });
+          });
+        }
+      }
+      
+      function setupNav() {
+        const nav = document.querySelector('nav');
+        if (!nav) return;
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            nav.style.padding = '0.5rem 0';
+            nav.style.background = 'rgba(10, 10, 10, 0.95)';
+          } else {
+            nav.style.padding = '1rem 0';
+            nav.style.background = 'rgba(10, 10, 10, 0.8)';
+          }
+        });
+
+        // Simple scroll animation for anchor links, skipping /post/ links
+        document.querySelectorAll('a[href^="/#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            // Only scroll smoothly if we are on the homepage
+            if(window.location.pathname !== '/') return;
+            
+            e.preventDefault();
+            const targetId = this.getAttribute('href').replace('/', '');
+            const target = document.querySelector(targetId);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          });
+        });
+      }
+
+      initMobileMenu();
+      setupNav();
+    </script>
+
+    <!-- Terminal Animation -->
+    <script>
+      import { initTerminalEffect } from '../terminal.js';
+      // Use standard Astro script strategy to initialize when visible or loaded
+      // Since it's a fixed canvas, we initialize on mount.
+      document.addEventListener('DOMContentLoaded', () => {
+        initTerminalEffect('terminal-canvas');
+      });
+      // Fallback if already loaded
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initTerminalEffect('terminal-canvas');
+      }
+    </script>
+</body>
+</html>
