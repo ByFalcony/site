@@ -39,10 +39,10 @@ async function fetchData(path) {
 function renderHero(heroData) {
   const heroContainer = document.getElementById('hero-content');
   heroContainer.innerHTML = `
-    <h1 class="text-gradient" style="font-size: clamp(2.5rem, 8vw, 4.5rem); margin-bottom: 1rem;">${heroData.title}</h1>
+    <h1 class="text-gradient" style="font-size: clamp(2rem, 8vw, 4.5rem); margin-bottom: 1rem;">${heroData.title}</h1>
     <h3 style="color: var(--accent); margin-bottom: 1.5rem; letter-spacing: 2px;">${heroData.subtitle}</h3>
     <p style="color: var(--text-secondary); max-width: 600px; font-size: 1.2rem; margin-bottom: 2rem;">${heroData.description}</p>
-    <div style="display: flex; gap: 1rem;">
+    <div class="hero-btns">
       <a href="#blog" class="btn btn-primary">Learning Log</a>
       <a href="#about" class="btn btn-secondary">More About Me</a>
     </div>

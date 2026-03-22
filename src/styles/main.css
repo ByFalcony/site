@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&family=Dancing+Script:wght@700&family=Orbitron:wght@700&display=swap');
 
 :root {
   /* Colors */
@@ -6,9 +6,9 @@
   --bg-secondary: #141414;
   --bg-tertiary: #1e1e1e;
   
-  --accent: #bc13fe;
-  --accent-rgb: 188, 19, 254;
-  --accent-muted: rgba(188, 19, 254, 0.1);
+  --accent: #00d4ff; /* Neon Night Blue (Eski: #bc13fe) */
+  --accent-rgb: 0, 212, 255; /* (Eski: 188, 19, 254) */
+  --accent-muted: rgba(0, 212, 255, 0.1);
   
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
@@ -86,6 +86,11 @@ ul {
 #hero-content {
   position: relative;
   z-index: 1;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
 }
 
 /* COMPONENTS */
@@ -172,16 +177,40 @@ nav {
   text-decoration: none;
 }
 
-.logo-img {
-  height: 50px; /* Slightly larger since text is gone */
-  width: auto;
-  filter: drop-shadow(0 0 10px var(--accent-muted));
+.logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-muted), 0 0 20px var(--accent-muted);
+  white-space: nowrap;
+  position: relative;
+  background: linear-gradient(
+    to right,
+    var(--accent) 20%,
+    #fff 40%,
+    #fff 60%,
+    var(--accent) 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
   transition: var(--transition);
 }
 
-.logo:hover .logo-img {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 15px var(--accent));
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.logo:hover .logo-text {
+  transform: scale(1.05);
+  text-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
 }
 
 .nav-links {
@@ -257,9 +286,29 @@ code {
 @media (max-width: 768px) {
   :root {
     --space-xl: 4rem;
+    --space-md: 1rem; /* Reduce container padding on mobile */
   }
   
   .nav-links {
     display: none; /* Mobile menu can be added later if needed */
+  }
+
+  .grid {
+    grid-template-columns: 1fr; /* Stack cards on mobile */
+  }
+
+  .hero-btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-btns .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 1.8rem !important; /* Force smaller size on very small screens */
+    word-break: break-word;
   }
 }

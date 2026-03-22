@@ -89,20 +89,19 @@ export function initTerminalEffect(canvasId) {
   ];
 
   const fontSizeBase = 14;
-  const columns = Math.floor(canvas.width / 80); // Significantly increased frequency
+  const columns = Math.floor(canvas.width / 11);
   const drops = [];
 
-  const colors = ['#00ff00', '#ff0000', '#bc13fe', '#888888']; // Green, Red, Purple, Gray
+  const colors = ['#00ff00', '#ff0000', '#00d4ff', '#888888'];
 
-  // Initialize drops - each drop is an object with position and current text
+  // Initialize drops
   for (let i = 0; i < columns; i++) {
     drops[i] = {
       x: i * (canvas.width / columns),
-      y: Math.random() * -1000, // Longer initial spread
+      y: Math.random() * -1000,
       text: commands[Math.floor(Math.random() * commands.length)],
-      speed: 0.5 + Math.random() * 2.5, // More speed variety
-      color: colors[Math.floor(Math.random() * colors.length)],
-      fontSize: fontSizeBase + (Math.random() * 4 - 2) // Slight font size variety
+      speed: 0.5 + Math.random() * 2.5,
+      color: colors[Math.floor(Math.random() * colors.length)]
     };
   }
 
@@ -111,31 +110,43 @@ export function initTerminalEffect(canvasId) {
     ctx.fillStyle = 'rgba(10, 10, 10, 0.25)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Set font once per frame for all drops
+    ctx.font = `bold ${fontSizeBase}px monospace`;
+
+    // Batch rendering by color to minimize expensive state changes
+    colors.forEach(color => {
+      ctx.fillStyle = color;
+      
+      // Shadow only for accent color to save performance
+      if (color === '#00d4ff') {
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = color;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      for (let i = 0; i < drops.length; i++) {
+        const drop = drops[i];
+        if (drop.color === color) {
+          ctx.fillText(drop.text, drop.x, drop.y);
+        }
+      }
+    });
+
+    // Reset shadow for next frame background clear/other operations
+    ctx.shadowBlur = 0;
+
+    // Update positions in a separate single loop
     for (let i = 0; i < drops.length; i++) {
       const drop = drops[i];
-      
-      ctx.font = `bold ${drop.fontSize}px monospace`;
-      
-      // Dynamic color with glow
-      ctx.fillStyle = drop.color;
-      ctx.shadowBlur = drop.color === '#bc13fe' ? 15 : 8; // More glow for accent color
-      ctx.shadowColor = drop.color;
-      
-      ctx.fillText(drop.text, drop.x, drop.y);
-      
-      // Reset shadow for performance
-      ctx.shadowBlur = 0;
-
-      // Update position
-      drop.y += drop.speed * 0.7;
+      drop.y += drop.speed * 2.1;
 
       // Reset if off bottom
       if (drop.y > canvas.height + 50) {
-        drop.y = - drop.fontSize - 20;
+        drop.y = -20;
         drop.text = commands[Math.floor(Math.random() * commands.length)];
         drop.color = colors[Math.floor(Math.random() * colors.length)];
         drop.speed = 0.5 + Math.random() * 2.5;
-        drop.fontSize = fontSizeBase + (Math.random() * 4 - 2);
       }
     }
     
