@@ -235,4 +235,26 @@ function addCopyButtons() {
   });
 }
 
+// Mobile Menu Logic
+function initMobileMenu() {
+  const mobileBtn = document.querySelector('.mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (mobileBtn && navLinks) {
+    mobileBtn.addEventListener('click', () => {
+      mobileBtn.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileBtn.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+}
+
 init();
+initMobileMenu();
