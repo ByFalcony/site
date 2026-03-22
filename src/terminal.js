@@ -139,7 +139,7 @@ export function initTerminalEffect(canvasId) {
     // Update positions in a separate single loop
     for (let i = 0; i < drops.length; i++) {
       const drop = drops[i];
-      drop.y += drop.speed * 2.1;
+      drop.y += drop.speed * 1.2;
 
       // Reset if off bottom
       if (drop.y > canvas.height + 50) {

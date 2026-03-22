@@ -68,7 +68,8 @@ ul {
 }
 
 .section-padding {
-  padding: var(--space-xl) 0;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
   position: relative; /* Add this for absolute child positioning */
 }
 
@@ -315,7 +316,7 @@ code {
 /* RESPONSIVE */
 @media (max-width: 768px) {
   :root {
-    --space-xl: 4rem;
+    --space-xl: 6rem; /* Increased to avoid top cutoff behind navbar */
     --space-md: 1.5rem; /* Increased side padding for modern phones */
   }
   
@@ -366,5 +367,7 @@ code {
   h1 {
     font-size: 1.8rem !important; /* Force smaller size on very small screens */
     word-break: break-word;
+    line-height: 1.4;
+    padding-top: 5px; /* Prevent top edge clipping from background-clip */
   }
 }
