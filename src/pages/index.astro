@@ -26,31 +26,38 @@ function getIconSvg(iconName) {
   <!-- Home / Hero Section -->
   <section id="home" class="section-padding container">
       <div id="hero-content">
-          <h1 class="text-gradient" style="font-size: clamp(2rem, 8vw, 4.5rem); margin-bottom: 1rem;">{hero.title}</h1>
-          <h3 style="color: var(--accent); margin-bottom: 1.5rem; letter-spacing: 2px;">{hero.subtitle}</h3>
-          <p style="color: var(--text-secondary); max-width: 600px; font-size: 1.2rem; margin-bottom: 2rem;">{hero.description}</p>
+          <h1 class="text-gradient" style="font-size: clamp(2rem, 8vw, 4.5rem); margin-bottom: 1rem;"
+              data-en={hero.title} data-tr={hero.title_tr}>{hero.title}</h1>
+          <h3 style="color: var(--accent); margin-bottom: 1.5rem; letter-spacing: 2px;"
+              data-en={hero.subtitle} data-tr={hero.subtitle_tr}>{hero.subtitle}</h3>
+          <p style="color: var(--text-secondary); max-width: 600px; font-size: 1.2rem; margin-bottom: 2rem;"
+             data-en={hero.description} data-tr={hero.description_tr}>{hero.description}</p>
           <div class="hero-btns">
-            <a href="/#blog" class="btn btn-primary">Learning Log</a>
-            <a href="/#about" class="btn btn-secondary">More About Me</a>
+            <a href="/#blog" class="btn btn-primary" data-i18n="hero.btn.blog">Learning Log</a>
+            <a href="/#about" class="btn btn-secondary" data-i18n="hero.btn.about">More About Me</a>
           </div>
       </div>
   </section>
 
   <!-- Blog / Learning Log Section -->
   <section id="blog" class="section-padding container">
-      <h2 class="section-title">Learning Log</h2>
+      <h2 class="section-title" data-i18n="blog.section">Learning Log</h2>
       <div id="blog-grid" class="grid">
           {blogData.map((entry) => (
             <article class="card">
               <div style="font-size: 0.8rem; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">{entry.date}</div>
-              <h3 style="margin-bottom: 1rem;">{entry.title}</h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">{entry.excerpt}</p>
+              <h3 style="margin-bottom: 1rem;"
+                  data-en={entry.title_en || entry.title}
+                  data-tr={entry.title_tr || entry.title}>{entry.title_en || entry.title}</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;"
+                 data-en={entry.excerpt_en || entry.excerpt}
+                 data-tr={entry.excerpt_tr || entry.excerpt}>{entry.excerpt_en || entry.excerpt}</p>
               <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
                 {entry.tags.map((tag) => (
                   <span style="font-size: 0.7rem; background: var(--accent-muted); color: var(--accent); border: 1px solid var(--accent-muted); padding: 2px 8px; border-radius: 4px;">{tag}</span>
                 ))}
               </div>
-              <a href={`/post/${entry.id}`} class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.9rem;">Read More</a>
+              <a href={`/post/${entry.id}`} class="btn btn-secondary" style="width: 100%; justify-content: center; font-size: 0.9rem;" data-i18n="blog.readmore">Read More</a>
             </article>
           ))}
       </div>
@@ -59,16 +66,17 @@ function getIconSvg(iconName) {
   <!-- About Section -->
   <section id="about" class="section-padding container">
       <div id="about-content">
-          <h2 style="margin-bottom: 2rem;">{about.title}</h2>
+          <h2 style="margin-bottom: 2rem;"
+              data-en={about.title} data-tr={about.title_tr}>{about.title}</h2>
           <div class="card" style="max-width: 800px; font-size: 1.1rem; line-height: 1.8;">
-            <p>{about.content}</p>
+            <p data-en={about.content} data-tr={about.content_tr}>{about.content}</p>
           </div>
       </div>
   </section>
 
   <!-- Contact Section -->
   <section id="contact" class="section-padding container">
-      <h2 class="section-title">Contact</h2>
+      <h2 class="section-title" data-i18n="contact.section">Contact</h2>
       <div id="contact-links" class="grid">
           {contact.links.map((link) => (
             <a href={link.url} target="_blank" class="card" style="display: flex; align-items: center; gap: 1rem;">
@@ -76,7 +84,7 @@ function getIconSvg(iconName) {
               </div>
               <div>
                 <h4 style="margin: 0;">{link.name}</h4>
-                <span style="font-size: 0.8rem; color: var(--text-secondary);">View Profile →</span>
+                <span style="font-size: 0.8rem; color: var(--text-secondary);" data-i18n="contact.view">View Profile →</span>
               </div>
             </a>
           ))}

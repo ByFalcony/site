@@ -12,7 +12,6 @@ export function getStaticPaths() {
 
 const { post } = Astro.props;
 
-// Convert markdown code blocks simply (very basic replace like the original `main.js`)
 let contentHtml = post.content.replace(/```bash([\s\S]*?)```/g, '<pre><code class="language-bash">$1</code></pre>');
 contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
 ---
@@ -20,13 +19,13 @@ contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code><
 <Layout title={`${post.title} | ${configData.meta.title}`} description={post.excerpt}>
   <div class="container section-padding" id="post-detail-overlay" style="min-height: 80vh;">
     <div style="margin-bottom: var(--space-md);">
-      <a href="/#blog" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 600; width: fit-content;">
-        ← Back to Learning Log
-      </a>
+      <a href="/#blog" class="nav-link" style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent); font-weight: 600; width: fit-content;" data-i18n="post.back">← Back to Learning Log</a>
     </div>
     <article class="card" style="padding: var(--space-lg); max-width: 800px; margin: 0 auto;">
       <div style="font-size: 0.9rem; color: var(--accent); margin-bottom: 1rem; font-weight: 600;">{post.date}</div>
-      <h1 style="margin-bottom: 2rem; font-size: 2.5rem;">{post.title}</h1>
+      <h1 style="margin-bottom: 2rem; font-size: 2.5rem;"
+          data-en={post.title_en || post.title}
+          data-tr={post.title_tr || post.title}>{post.title_en || post.title}</h1>
       <div style="display: flex; gap: 0.5rem; margin-bottom: 2.5rem;">
         {post.tags.map(tag => (
           <span style="font-size: 0.8rem; background: var(--accent-muted); color: var(--accent); border: 1px solid var(--accent-muted); padding: 4px 12px; border-radius: 4px;">{tag}</span>
@@ -36,7 +35,7 @@ contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code><
       </div>
     </article>
     <div style="text-align: center; margin-top: var(--space-lg);">
-      <a href="/#blog" class="btn btn-secondary">Back to List</a>
+      <a href="/#blog" class="btn btn-secondary" data-i18n="post.backbtn">Back to List</a>
     </div>
   </div>
 
@@ -49,7 +48,7 @@ contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code><
         const button = document.createElement('button');
         button.className = 'copy-btn';
         button.innerHTML = 'Copy';
-        
+
         button.addEventListener('click', () => {
           const code = block.querySelector('code').innerText;
           navigator.clipboard.writeText(code).then(() => {
@@ -65,8 +64,7 @@ contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code><
         block.appendChild(button);
       });
     }
-    
-    // Setup on page load
+
     document.addEventListener('DOMContentLoaded', addCopyButtons);
   </script>
 </Layout>

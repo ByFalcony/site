@@ -7,12 +7,17 @@
   "sections": {
     "hero": {
       "title": "AI & Cyber Intelligence",
+      "title_tr": "Yapay Zeka & Siber İstihbarat",
       "subtitle": "AI, Cyber Threat Intelligence & Security",
-      "description": "A Computer Science student specializing in AI, cybersecurity, and AI-based threat analysis, sharing what I learn along the way."
+      "subtitle_tr": "Yapay Zeka, Siber Tehdit İstihbaratı & Güvenlik",
+      "description": "A Computer Science student specializing in AI, cybersecurity, and AI-based threat analysis, sharing what I learn along the way.",
+      "description_tr": "Yapay zeka, siber güvenlik ve yapay zeka tabanlı tehdit analizinde uzmanlaşan bir Bilgisayar Mühendisliği öğrencisi; öğrendiklerini burada paylaşıyor."
     },
     "about": {
       "title": "About Me",
-      "content": "As a Computer Science student, my focus is on creating innovative solutions at the intersection of Artificial Intelligence and Cybersecurity. I am currently working on automating Cyber Threat Intelligence (CTI) processes and developing AI-powered security analysis tools."
+      "title_tr": "Hakkımda",
+      "content": "As a Computer Science student, my focus is on creating innovative solutions at the intersection of Artificial Intelligence and Cybersecurity. I am currently working on automating Cyber Threat Intelligence (CTI) processes and developing AI-powered security analysis tools.",
+      "content_tr": "Bilgisayar Mühendisliği öğrencisi olarak odak noktam, Yapay Zeka ile Siber Güvenliğin kesişiminde yenilikçi çözümler üretmek. Halihazırda Siber Tehdit İstihbaratı (CTI) süreçlerini otomatikleştiriyor ve yapay zeka destekli güvenlik analiz araçları geliştiriyorum."
     },
     "contact": {
       "title": "Contact",
