@@ -98,6 +98,10 @@ const { title, description } = Astro.props;
           if (text) el.textContent = text;
         });
 
+        document.querySelectorAll('[data-lang-content]').forEach(el => {
+          el.style.display = el.getAttribute('data-lang-content') === lang ? '' : 'none';
+        });
+
         document.querySelectorAll('.lang-option').forEach(opt => {
           opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
         });

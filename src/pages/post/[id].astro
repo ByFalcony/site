@@ -12,8 +12,13 @@ export function getStaticPaths() {
 
 const { post } = Astro.props;
 
-let contentHtml = post.content.replace(/```bash([\s\S]*?)```/g, '<pre><code class="language-bash">$1</code></pre>');
-contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+function renderContent(raw) {
+  let html = raw.replace(/```bash([\s\S]*?)```/g, '<pre><code class="language-bash">$1</code></pre>');
+  return html.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+}
+
+const contentHtmlEn = renderContent(post.content_en || post.content);
+const contentHtmlTr = renderContent(post.content_tr || post.content);
 ---
 
 <Layout title={`${post.title} | ${configData.meta.title}`} description={post.excerpt}>
@@ -31,8 +36,8 @@ contentHtml = contentHtml.replace(/```\n?([\s\S]*?)```/g, '<pre><code>$1</code><
           <span style="font-size: 0.8rem; background: var(--accent-muted); color: var(--accent); border: 1px solid var(--accent-muted); padding: 4px 12px; border-radius: 4px;">{tag}</span>
         ))}
       </div>
-      <div style="color: var(--text-primary); font-size: 1.1rem; line-height: 2; white-space: pre-wrap;" set:html={contentHtml}>
-      </div>
+      <div data-lang-content="en" style="color: var(--text-primary); font-size: 1.1rem; line-height: 2; white-space: pre-wrap;" set:html={contentHtmlEn}></div>
+      <div data-lang-content="tr" style="color: var(--text-primary); font-size: 1.1rem; line-height: 2; white-space: pre-wrap;" set:html={contentHtmlTr}></div>
     </article>
     <div style="text-align: center; margin-top: var(--space-lg);">
       <a href="/#blog" class="btn btn-secondary" data-i18n="post.backbtn">Back to List</a>
