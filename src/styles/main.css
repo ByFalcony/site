@@ -151,6 +151,12 @@ ul {
   transform: translateY(-4px);
 }
 
+/* LANG CONTENT VISIBILITY — controlled via html[data-lang] set before render */
+[data-lang-content] { display: none; }
+html[data-lang="en"] [data-lang-content="en"],
+html:not([data-lang]) [data-lang-content="en"] { display: block; }
+html[data-lang="tr"] [data-lang-content="tr"] { display: block; }
+
 /* LANG TOGGLE */
 .lang-toggle {
   display: flex;

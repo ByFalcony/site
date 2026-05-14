@@ -11,6 +11,8 @@ const { title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Set lang on <html> before render to prevent content flash -->
+    <script>try{document.documentElement.dataset.lang=localStorage.getItem('lang')||'en';}catch(e){}</script>
 </head>
 <body>
     <canvas id="terminal-canvas"></canvas>
@@ -98,15 +100,12 @@ const { title, description } = Astro.props;
           if (text) el.textContent = text;
         });
 
-        document.querySelectorAll('[data-lang-content]').forEach(el => {
-          el.style.display = el.getAttribute('data-lang-content') === lang ? '' : 'none';
-        });
-
         document.querySelectorAll('.lang-option').forEach(opt => {
           opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
         });
 
         document.documentElement.lang = lang;
+        document.documentElement.dataset.lang = lang;
         localStorage.setItem('lang', lang);
       }
 
